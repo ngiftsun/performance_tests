@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  dynamic_reconfigure
 )
 
 ## System dependencies are found with CMake's conventions
@@ -46,7 +47,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Generate messages in the 'msg' folder
  add_message_files(FILES SuperAwesome.msg)
-
+ add_service_files(FILES RequestSubscriberStats.srv SetLoopRate.srv)
 
 ## Generate added messages and services with any dependencies listed here
  generate_messages(DEPENDENCIES std_msgs)
@@ -66,8 +67,7 @@ find_package(catkin REQUIRED COMPONENTS
 ##     and list every .cfg file to be processed
 
 ## Generate dynamic reconfigure parameters in the 'cfg' folder
-# generate_dynamic_reconfigure_options(
-#   cfg/DynReconf1.cfg
+ generate_dynamic_reconfigure_options(cfg/performanceTests.cfg)
 #   cfg/DynReconf2.cfg
 # )
 
@@ -80,7 +80,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(CATKIN_DEPENDS roscpp rospy std_msgs message_runtime)
+catkin_package(CATKIN_DEPENDS roscpp rospy std_msgs message_runtime dynamic_reconfigure)
 
 ###########
 ## Build ##
@@ -106,11 +106,11 @@ include_directories(
 ## C++ executable configuration
  add_executable(performance_tests_publisher  src/text_publisher.cpp)
  target_link_libraries(performance_tests_publisher  ${catkin_LIBRARIES})
- add_dependencies(performance_tests_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(performance_tests_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 
  add_executable(performance_tests_subscriber src/text_subscriber.cpp)
  target_link_libraries(performance_tests_subscriber  ${catkin_LIBRARIES})
- add_dependencies(performance_tests_subscriber ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(performance_tests_subscriber ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} )
 
 
 #############

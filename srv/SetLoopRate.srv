@@ -1,0 +1,3 @@
+int16 loop_rate
+---
+bool  state
